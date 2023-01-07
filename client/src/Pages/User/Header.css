@@ -1,0 +1,30 @@
+.header-div{
+    background-color: rgb(40, 138, 213);
+    color: white;
+    padding: 20px;
+    top: 0;
+    left: 0;
+    position: relative;
+    top: -36px;
+    left: -36px;
+    width: 105%;
+   
+}
+
+.header-div span{
+    padding-right: 40px;
+}
+
+.header-div .header-title{
+    font-size: 24px;
+    font-weight: bold;
+    padding-left: 20px;
+}
+a{
+    float:right
+}
+
+.logout{
+    float: right;
+}
+  
