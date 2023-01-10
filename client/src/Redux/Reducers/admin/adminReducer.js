@@ -14,7 +14,7 @@ export const adminReducer= (state = initialState,{type,payload}) =>{
                 redirectStatus:false
             }
          case ActionTypes.ADMIN_LOGIN:
-           
+           console.log('admin payload data',payload);
             return{
                 ...state,
                 adminloading:false,
@@ -23,7 +23,7 @@ export const adminReducer= (state = initialState,{type,payload}) =>{
                 adminData:payload
             } 
         case ActionTypes.ADMIN_LOGIN_REQUEST_FAILED:
-           
+            console.log('admin failed payload data',payload);
             return{
                 ...state,
                 adminloading:true,
@@ -73,7 +73,7 @@ export const adminReducer= (state = initialState,{type,payload}) =>{
 
 
 export const adminBlockReducer = (state={},action)=>{
-    console.log(action.payload)
+    
     switch (action.type) {
         case ActionTypes.ADMIN_BLOCK_REQUEST:
             return({loading:true})

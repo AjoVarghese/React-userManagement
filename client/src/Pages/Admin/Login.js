@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { adminLogin } from '../../Redux/Actions/adminActions'
 import Loading from '../Loading'
+import 'semantic-ui-css/semantic.min.css'
+import {Form,Button} from 'semantic-ui-react'
+import {useForm} from 'react-hook-form'
 
 function Login() {
     const [email,setEmail]=useState('')
@@ -13,7 +16,8 @@ function Login() {
     const {adminData}=state
 
 
-    const handleLogin=(e)=>{
+    const onSubmit=(data,e)=>{
+      console.log('adminlogin data',data);
       e.preventDefault()
       dispatch(adminLogin(email,password))
     }
@@ -27,33 +31,48 @@ function Login() {
       }
     },[adminData])
 
+    const {register,handleSubmit,formState:{errors}} = useForm()
+
   return (
     <div>
         <div className="signup-form">
-    <form >
+          <Form onSubmit={handleSubmit(onSubmit)}>
+   
       
       {
-        state.emailStatus === true && state.loginErrorData ? <h1 style={{color:'red'}}>{state.adminErrorData.data}</h1> :<h1> Admin Login</h1>
+        state.emailStatus === true && state.adminErrorData ? <h1 style={{color:'red'}}>{state.adminErrorData.data}</h1> :<h1> Admin Login</h1>
       }
-            
+            <Form.Field>
            <input 
               type="email"
               className="form--input"
               placeholder="Email Address"
-              name="email"
+             {...register('adminEmail',
+             {
+              required:true,
+              pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ 
+             })}
              onChange={(e)=>setEmail(e.target.value)}
-             required
            />
+           </Form.Field>
+           {errors.adminEmail && <p style={{color:'red'}}>Please check the email</p>}
+           <Form.Field>
            <input 
               type="password"
               className="form--input"
               placeholder="Password"
-              name="password"
+              {...register('adminPassword',
+            {
+              required:true
+            })}
               onChange={(e)=>setPassword(e.target.value)}
-             required
            />
-           <button onClick={handleLogin}>Submit</button>
-         </form>
+           </Form.Field>
+           {errors.adminPassword && <p style={{color:'red'}}>Please check the password</p>}
+          
+           <Button type='submit'>Login</Button>
+         </Form>
+
     </div>
     </div>
   )

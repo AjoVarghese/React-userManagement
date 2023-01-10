@@ -7,10 +7,13 @@ import { adminHome } from '../../Redux/Actions/adminActions'
 import { adminBlockUnblock } from '../../Redux/Actions/adminActions'
 import { adminUpdate } from '../../Redux/Actions/adminActions'
 import './Home.css'
+import Modal from '../../components/Modal'
 
 function Home() {
    const [dummy,setDummy]=useState();
    const [selectedUser,setSelectedUser]=useState()
+   const [openModal,setOpenModal] = useState(false)
+   const [selectUser,setSelectUser] = useState('')
   const dispatch=useDispatch()
   const navigate=useNavigate()
   const adminhome = useSelector((state)=>state.adminReducer)
@@ -21,7 +24,7 @@ function Home() {
 //   let blockData=useSelector((state)=>state.adminBlockReducer)
 //   const {blockdata} = blockData;
 //   console.log(blockData);
-  console.log("sttee",blockData);
+
  
   useEffect(()=>{
 
@@ -36,10 +39,10 @@ function Home() {
     },[blockData])
 
 
-  const block=(user)=>{
-   dispatch((adminBlockUnblock(user))
-   )
-  }
+//   const block=(user)=>{
+//    dispatch((adminBlockUnblock(user))
+//    )
+//   }
 
   const userDetails = (data) =>{
     setSelectedUser(data)
@@ -47,13 +50,16 @@ function Home() {
     navigate('/edit-user')
   }
 
-
+  
 
   return (
     <div className='admin-home'>
         <Header/>
+        {
+      openModal ? <Modal closeModal={setOpenModal} doAction={selectUser}/>:''
+   }
         <div className='admin-home'>
-         
+       
         <table cellspacing="0" cellpadding="0" className="user-table">
    <tr id="user-table-top">
    
@@ -70,41 +76,54 @@ function Home() {
          <h3>Action</h3>
       </th>
    </tr>
+   
+   
    {
       
-
    adminData? adminData.length > 0 ? adminData.map((user)=>{
       
          return(
-            <tr>
-               
+         <tr>
+         
          <th>
             <h5>{user.name}</h5>
          </th>
          <th>
             <h5>{user.email}</h5>
          </th>
+      
+      
          
          
          <th><button key={user._id} onClick={(e)=>{
             console.log("clicked user",user);
             userDetails(user)
-           
-         
-          
          }}><i class="fas fa-edit"></i></button></th>
+
+
          {
-            user.loginStatus === true ? <th><button onClick={(e)=>{block(user)}} key={user._id}><i className="fas fa-user-times" ></i></button>
+            user.loginStatus === true ? <th><button onClick={(e)=>{
+               setOpenModal(true)
+               setSelectUser(user)
+               // block(user)
+               }} key={user._id}><i className="fas fa-user-times" ></i></button>
             </th> : <th><button key={user._id} onClick={(e)=>{
-               block(user)
-                setDummy()
+                setOpenModal(true)
+                setSelectUser(user)
+               // block(user)
+                 setDummy()
                 }}><i className="fas fa-user-times" style={{color:'green'}} ></i></button>
             </th>
+            
          }
+         
+     
          
       </tr>
          )
+        
        }) : '' : ''
+       
    }
    
   

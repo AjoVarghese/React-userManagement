@@ -31,7 +31,7 @@ module.exports={
         })
     },
     blockUnblockUser:(userData)=>{
-        console.log('block userData',userData);
+        console.log('block userDatagggggggggggg',userData);
         return new Promise(async(resolve,reject)=>{
             let user=await connection.get().collection(collection.USER_DETAILS).findOne({email:userData.user.email})
             if(user.loginStatus === true){

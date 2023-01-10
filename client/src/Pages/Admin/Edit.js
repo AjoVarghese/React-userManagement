@@ -12,8 +12,18 @@ function Edit() {
   console.log('edited state',state);
   const [name,setName]=useState(state.name)
   const [email,setEmail]=useState(state.email)
+  const [inputName,setInputName] = useState(state.name)
+  const [inputEmail,setInputEmail] = useState(state.email)
   
+const changeName = e => {
+  setInputName(e.target.value)
+  setName(e.target.value)
+}
 
+const changeEmail = e =>{
+  setInputEmail(e.target.value)
+  setEmail(e.target.value)
+}
 
   const handleUpdate=(e)=>{
     e.preventDefault()
@@ -39,23 +49,18 @@ function Edit() {
              <input 
                 type="text"
                 className="form--input"
-                value={state.name}
-                name="name"
-                required
-                onChange={(e)=>setName(e.target.value)}
-                
+                value={inputName}
+                onChange={changeName}
+                 
              />
              
             
              <input 
                 type="email"
-                style={{color:'red'}}
                 className="form--input"
-                placeholder={state.email}
+                value={inputEmail}
                 name="email"
-                required
-                onChange={(e)=>setEmail(e.target.value)}
-               
+                onChange={changeEmail}
              />
              
              
